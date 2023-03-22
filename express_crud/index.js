@@ -4,20 +4,31 @@ const app = express();
 var fs = require('fs')
 var path = require('path')
 const morgan = require('morgan')
+const helmet = require("helmet");
+const rateLimit = require('express-rate-limit')
 const userController = require('./src/controllers/user.controller.js')
 const PORT = 4000;
 
 // app.use(morgan('combined')) //HTTP request logger middleware for node.js
- 
+
 // create a write stream (in append mode)
 var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
- 
+
+//setup Rate Limiter
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+})
+
 // setup the logger
 app.use(morgan('combined', { stream: accessLogStream }))
-
+app.use(helmet());
+app.use('/api', limiter) //Use to limit repeated requests to public APIs and/or endpoints such as password reset.
 
 app.use(express.json());
-app.use('/user', userController)
+app.use('/api', userController)
 
 app.listen(PORT, async () => {
     await connect()

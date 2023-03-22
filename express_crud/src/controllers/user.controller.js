@@ -3,7 +3,7 @@ const User = require('../modules/user.module');
 const router = express.Router();
 
 
-router.post('/', async (req, res)=>{
+router.post('/user', async (req, res)=>{
     try {
         const user = await User.create(req.body);
         res.status(201).send({user});
@@ -12,7 +12,7 @@ router.post('/', async (req, res)=>{
     }
 })
 
-router.get('/', async (req, res)=>{
+router.get('/users', async (req, res)=>{
     try {
         const user = await User.find({})
         res.status(200).send({user});
