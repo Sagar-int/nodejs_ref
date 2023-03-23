@@ -4,3 +4,6 @@
 ::1 - - [22/Mar/2023:12:51:27 +0000] "GET /user HTTP/1.1" 200 634 "-" "PostmanRuntime/7.31.1"
 ::1 - - [22/Mar/2023:12:52:56 +0000] "GET /user HTTP/1.1" 200 634 "-" "PostmanRuntime/7.31.1"
 ::1 - - [22/Mar/2023:13:13:34 +0000] "GET /api/users HTTP/1.1" 200 634 "-" "PostmanRuntime/7.31.1"
+::1 - - [23/Mar/2023:05:38:11 +0000] "GET /api/users HTTP/1.1" 200 634 "-" "PostmanRuntime/7.31.3"
+::1 - - [23/Mar/2023:05:39:05 +0000] "DELETE /api/user/641ab6acb875c70e83c67b85 HTTP/1.1" 404 175 "-" "PostmanRuntime/7.31.3"
+::1 - - [23/Mar/2023:05:40:06 +0000] "DELETE /api/user/641ab6acb875c70e83c67b85 HTTP/1.1" 404 175 "-" "PostmanRuntime/7.31.3"

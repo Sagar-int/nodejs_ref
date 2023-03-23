@@ -21,7 +21,7 @@ router.get('/users', async (req, res)=>{
     }
 })
 
-router.patch('/:id', async (req, res)=>{
+router.patch('user/:id', async (req, res)=>{
     try {
         const id = req.params.id
         const user = await User.findByIdAndUpdate(id, req.body, {new: true});
@@ -31,7 +31,7 @@ router.patch('/:id', async (req, res)=>{
     }
 })
 
-router.delete('/:id', async (req, res)=>{
+router.delete('user/:id', async (req, res)=>{
     try {
         const id = req.params.id
         const user = await User.findByIdAndDelete(id, req.body, {new: true});
