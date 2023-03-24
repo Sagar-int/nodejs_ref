@@ -1,0 +1,25 @@
+.App {
+  width: 60%;
+  margin: auto;
+  border: 1px solid red;
+  padding: 20px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+h1{
+  text-align: center;
+}
+li{
+  list-style-type: square;
+}
+
+.left_div{
+  width: 40%;
+  /* border: 1px solid rgb(132, 174, 125); */
+}
+.right_div{
+  width: 50%;
+  /* border: 1px solid rgb(174, 169, 125); */
+}
