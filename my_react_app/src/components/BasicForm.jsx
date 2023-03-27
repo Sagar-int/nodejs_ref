@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios'
+import { toast } from "react-toast";
 
-const BasicForm = ({handleData}) => {
+const BasicForm = ({ handleData }) => {
     let obj = {
         name: '',
         city: '',
@@ -21,6 +22,7 @@ const BasicForm = ({handleData}) => {
         setFormData({ ...formData, profile: e.target.files[0] });
     }
 
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         let FormWithFileData = new FormData();
@@ -34,22 +36,36 @@ const BasicForm = ({handleData}) => {
             const res = await axios.post(url, FormWithFileData);
             if (res.status == 201) {
                 alert('Form Submitted Successful');
+                // toast.success("Form Submitted successfully!");
                 setFormData(obj);
             }
         } catch (error) {
-            alert('Something went wrong', error);
+
+            toast.error("Oops! Some error occurred.");
         }
 
     }
+
 
     const getData = async () => {
         const { data } = await axios.get('http://localhost:4000/api/users');
         handleData(data.user)
     }
 
+    const customToast = () => {
+        console.log("haaaaaaaaahhahahahah");
+        toast('Morning! Have a good day.', {
+            backgroundColor: '#00000C5',
+            color: '#ffffff',
+        })
+    }
+
+
     useEffect(() => {
         getData()
     }, [formData])
+
+
 
 
     return (
@@ -61,11 +77,11 @@ const BasicForm = ({handleData}) => {
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Mobile</Form.Label>
-                    <Form.Control type="text" name='mobile' value={formData.mobile} onChange={handleInputChange} placeholder="Enter your name" />
+                    <Form.Control type="text" name='mobile' value={formData.mobile} onChange={handleInputChange} placeholder="Enter your mobile number" />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>City</Form.Label>
-                    <Form.Control type="text" name='city' value={formData.city} onChange={handleInputChange} placeholder="Enter your name" />
+                    <Form.Control type="text" name='city' value={formData.city} onChange={handleInputChange} placeholder="Enter your city name" />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Profile</Form.Label>
@@ -76,7 +92,12 @@ const BasicForm = ({handleData}) => {
                 <Button variant="primary" type="submit">
                     Submit
                 </Button>
+
+                <Button variant="secondary" onClick={() => customToast}>
+                    Click Toast
+                </Button>
             </Form>
+
         </div>
     )
 }

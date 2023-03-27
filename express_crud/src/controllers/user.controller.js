@@ -1,5 +1,7 @@
 const express = require('express');
 const multer = require('multer');
+const tesseract = require("node-tesseract-ocr")
+const fs = require('fs');
 const path = require('path');
 const User = require('../modules/user.module');
 const router = express.Router();
@@ -38,6 +40,26 @@ router.post('/user', upload.single('profile'), async (req, res) => {
         res.status(500).json({ message: 'Something went wrong', error });
     }
 })
+
+
+// route for uploading images and parse it into text.
+router.post('/upload', upload.single('img'), async (req, res) => {
+    const config = {
+        lang: "eng",
+        oem: 1,
+        psm: 3,
+    }
+
+    tesseract
+        .recognize(req.file.path, config)
+        .then((text) => {
+            console.log("Result:", text)
+            res.status(201).json(text)
+        })
+        .catch((error) => {
+            console.log(error.message)
+        })
+});
 
 router.get('/users', async (req, res) => {
     try {

@@ -1,6 +1,8 @@
 import './App.css';
 import BasicForm from './components/BasicForm';
 import { useState } from 'react';
+import { ToastContainer } from "react-toast";
+import ImageToText from './components/ImageToText';
 
 function App() {
 
@@ -19,7 +21,10 @@ function App() {
         <hr /> <br />
         <BasicForm handleData={handleData} />
       </div>
-      <div className="right_div">
+      <div className="mid_div">
+        <hr />
+        <h2>Club Member's</h2>
+        <hr />
         <ul>
           {
             data.map((ele) => (
@@ -30,10 +35,14 @@ function App() {
               </li>
             ))
           }
-
         </ul>
       </div>
 
+      <div className="right_div">
+          <ImageToText/>
+      </div>
+
+      <ToastContainer delay={3000} />
     </div>
   );
 }
