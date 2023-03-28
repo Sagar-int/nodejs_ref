@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const tesseract = require("node-tesseract-ocr")
 const fs = require('fs');
+const PDFDocument = require('pdfkit');
 const path = require('path');
 const User = require('../modules/user.module');
 const router = express.Router();
@@ -11,7 +12,7 @@ const storage = multer.diskStorage({
         cb(null, path.join(__dirname, '/public/images'))
     },
     filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + '.jpg');
+        cb(null, Date.now() + '-' + file.originalname);
     }
 })
 
@@ -54,12 +55,37 @@ router.post('/upload', upload.single('img'), async (req, res) => {
         .recognize(req.file.path, config)
         .then((text) => {
             console.log("Result:", text)
-            res.status(201).json(text)
+            // res.status(201).json(text)
+            res.json({ filename: req.file.filename });
         })
         .catch((error) => {
             console.log(error.message)
         })
 });
+
+// route for converting images to pdf.
+router.post('/convert-to-pdf', async (req, res) => {
+    const { filename } = req.body;
+    const imagePath = path.join(__dirname, `/public/images/${filename}`); // Replace with the path to your image
+    const pdfPath = path.join(__dirname, `/public/pdf/${filename}.pdf`); // 
+
+    const pdfDoc = new PDFDocument();
+    pdfDoc.pipe(fs.createWriteStream(pdfPath));
+    pdfDoc.image(imagePath, {
+        fit: [500, 500], // Adjust image size as needed
+        align: 'center',
+        valign: 'center'
+    });
+    pdfDoc.end();
+    res.send('PDF generated successfully');
+});
+
+
+
+
+
+
+
 
 router.get('/users', async (req, res) => {
     try {
