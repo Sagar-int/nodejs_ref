@@ -1,5 +1,18 @@
 .App {
-  width: 95%;
+
+}
+.formic_form{
+  width: 30%;
+  margin: auto;
+}
+
+u{
+  font-size: 70px;
+  font-weight: 900;
+}
+
+.top_div {
+  width: 100%;
   margin: auto;
   padding: 20px;
   border-radius: 5px;

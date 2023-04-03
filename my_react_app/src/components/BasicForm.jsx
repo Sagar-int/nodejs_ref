@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios'
-import { toast } from "react-toast";
+import { toast } from 'react-toastify';
 
 const BasicForm = ({ handleData }) => {
     let obj = {
@@ -35,13 +35,29 @@ const BasicForm = ({ handleData }) => {
         try {
             const res = await axios.post(url, FormWithFileData);
             if (res.status == 201) {
-                alert('Form Submitted Successful');
-                // toast.success("Form Submitted successfully!");
+                toast.success('Form Submitted successfully!', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
                 setFormData(obj);
             }
         } catch (error) {
-
-            toast.error("Oops! Some error occurred.");
+            toast.error(`Oops! Some error occurred!, ${error}`, {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
         }
 
     }
@@ -51,15 +67,6 @@ const BasicForm = ({ handleData }) => {
         const { data } = await axios.get('http://localhost:4000/api/users');
         handleData(data.user)
     }
-
-    const customToast = () => {
-        console.log("haaaaaaaaahhahahahah");
-        toast('Morning! Have a good day.', {
-            backgroundColor: '#00000C5',
-            color: '#ffffff',
-        })
-    }
-
 
     useEffect(() => {
         getData()
@@ -93,9 +100,9 @@ const BasicForm = ({ handleData }) => {
                     Submit
                 </Button>
 
-                <Button variant="secondary" onClick={() => customToast}>
+                {/* <Button variant="secondary" onClick={() => customToast}>
                     Click Toast
-                </Button>
+                </Button> */}
             </Form>
 
         </div>

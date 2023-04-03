@@ -56,7 +56,7 @@ router.post('/upload', upload.single('img'), async (req, res) => {
         .then((text) => {
             console.log("Result:", text)
             // res.status(201).json(text)
-            res.json({ filename: req.file.filename });
+            res.status(201).json({ filename: req.file.filename, text });
         })
         .catch((error) => {
             console.log(error.message)
@@ -82,15 +82,35 @@ router.post('/convert-to-pdf', async (req, res) => {
 
 
 
+//API For Filter
+router.get('/users/filter', async (req, res) => {
+    let c = req.query.city
+    let m = req.query.mobile
 
+    try {
+        // const user = await User.find({ city: q }) //Way-1
+        // const user = await User.find().where('city').equals(q) //Way-2
+        // const user = await User.find().where('city').equals(c).where('mobile').equals(m) //Way-2
+        const user = await User.find(req.query) //Way-3
 
-
-
+        res.status(200).json({
+            status: 'success',
+            results: user.length,
+            data: user
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Something went wrong', error });
+    }
+})
 
 router.get('/users', async (req, res) => {
     try {
-        const user = await User.find({})
-        res.status(200).send({ user });
+        const user = await User.find({}).sort(req.query.sort)
+        res.status(200).json({
+            status: 'success',
+            results: user.length,
+            user:user
+        });
     } catch (error) {
         res.status(500).json({ message: 'Something went wrong', error });
     }

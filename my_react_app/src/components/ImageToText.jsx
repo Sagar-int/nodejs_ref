@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios'
+import { toast } from 'react-toastify';
 
 const ImageToText = () => {
 
@@ -26,17 +27,34 @@ const ImageToText = () => {
         // let url = 'http://localhost:4000/api//image-to-pdf';
         try {
             const res = await axios.post(url, ImageData);
-            const { filename } = res.data;
+            const { filename, text } = res.data;
 
             const res1 = await axios.post('http://localhost:4000/api/convert-to-pdf', { filename });
-            alert(`${res1.data}`);
-            // if (res.status == 201) {
-            //     // setOutput(res.data)
-            //     inputRef.current.value = '';
-            //     // alert('Form Submitted Successful');
-            // }
+            if (res.status == 201) {
+                setOutput(text)
+                inputRef.current.value = '';
+                toast.success('Image successfully uploaded!', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
         } catch (error) {
-            alert('Something went wrong');
+            toast.error(`Oops! Some error occurred!, ${error}`, {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
         }
     }
 
