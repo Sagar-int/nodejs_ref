@@ -31,7 +31,7 @@ const BasicForm = ({ handleData }) => {
         FormWithFileData.append('city', formData.city)
         FormWithFileData.append('mobile', formData.mobile)
 
-        let url = 'http://localhost:4000/api/user';
+        let url = 'http://localhost:5000/api/user';
         try {
             const res = await axios.post(url, FormWithFileData);
             if (res.status == 201) {
@@ -64,7 +64,7 @@ const BasicForm = ({ handleData }) => {
 
 
     const getData = async () => {
-        const { data } = await axios.get('http://localhost:4000/api/users');
+        const { data } = await axios.get('http://localhost:5000/api/users');
         handleData(data.user)
     }
 

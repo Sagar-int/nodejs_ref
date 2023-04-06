@@ -23,13 +23,12 @@ const ImageToText = () => {
         let ImageData = new FormData();
         ImageData.append('img', testImage.img)
 
-        let url = 'http://localhost:4000/api/upload';
-        // let url = 'http://localhost:4000/api//image-to-pdf';
+        let url = 'http://localhost:5000/api/upload';
         try {
             const res = await axios.post(url, ImageData);
             const { filename, text } = res.data;
-
-            const res1 = await axios.post('http://localhost:4000/api/convert-to-pdf', { filename });
+            
+            // const res1 = await axios.post('http://localhost:4000/api/convert-to-pdf', { filename });
             if (res.status == 201) {
                 setOutput(text)
                 inputRef.current.value = '';
